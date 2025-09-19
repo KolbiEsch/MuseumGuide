@@ -1,0 +1,74 @@
+# Default configuration (used when no profile is specified)
+spring:
+  datasource:
+    url: jdbc:postgresql://192.168.1.241:5432/MuseumGuide
+    username: postgres
+    password: password123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate  # Important: Use 'validate' with Flyway
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    baseline-version: 0
+    baseline-description: "Initial baseline"
+
+  # Connection pool settings (HikariCP)
+  hikari:
+    connection-timeout: 20000
+    maximum-pool-size: 10
+    minimum-idle: 5
+    idle-timeout: 600000
+    max-lifetime: 1800000
+
+# Logging configuration
+logging:
+  level:
+    org.flywaydb: INFO
+    org.hibernate.SQL: DEBUG  # Set to DEBUG to see SQL queries
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+---
+# Development profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:postgresql://192.168.1.241:5432/MuseumGuide
+    username: postgres
+    password: password123
+  jpa:
+    show-sql: true
+  logging:
+    level:
+      org.hibernate.SQL: DEBUG
+
+---
+# Production profile
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+  jpa:
+    show-sql: false
+  logging:
+    level:
+      org.hibernate.SQL: WARN
