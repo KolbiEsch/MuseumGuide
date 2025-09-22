@@ -3,10 +3,12 @@ package io.github.kolbiesch.museumguide.entities;
 import jakarta.persistence.*;
 import java.util.List;
 import java.time.LocalDateTime;
+import lombok.*;
 
 @Entity
 @Table(name = "exhibits")
 public class Exhibit {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -41,6 +43,10 @@ public class Exhibit {
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy("displayOrder ASC, id ASC")
+    private List<ExhibitMedia> media;
+
     public Exhibit() {}
 
     public Exhibit(String name, String description, String location) {
@@ -52,7 +58,19 @@ public class Exhibit {
         this.updatedAt = LocalDateTime.now();
     }
 
-    public Long getId() { return id; }
+    public ExhibitMedia getPrimaryImage() {
+        if (media == null || media.isEmpty()) {
+            return null;
+        }
+        return media.stream()
+                .filter(m -> m.getIsPrimary() && m.getMediaType() == ExhibitMedia.MediaType.IMAGE)
+                .findFirst()
+                .orElse(media.stream()
+                        .filter(m -> m.getMediaType() == ExhibitMedia.MediaType.IMAGE)
+                        .findFirst()
+                        .orElse(null));
+    }
+
     public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }
