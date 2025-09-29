@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByFirstNameContainingIgnoreCase(String firstName);
     List<User> findByLastNameContainingIgnoreCase(String lastName);
-    List<User> findByFirstOrLastNameContainingIgnoreCase(String firstName, String lastName);
+    List<User> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(String firstName, String lastName);
 
     @Query("SELECT COUNT(u) FROM User u")
     long countAllUsers();
@@ -29,6 +29,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT DISTINCT u FROM User u JOIN u.visits v")
     List<User> findUsersWithVisits();
 
-    @Query("SELECT DISTINCT u FROM user u JOIN u.comments c WHERE c.isPublic = true")
+    @Query("SELECT DISTINCT u FROM User u JOIN u.comments c WHERE c.isPublic = true")
     List<User> findUsersWithPublicComments();
 }

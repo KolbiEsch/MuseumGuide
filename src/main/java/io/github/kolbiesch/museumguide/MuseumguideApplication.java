@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EnableJpaRepositories(basePackages = "io.github.kolbiesch.museumguide.repository")
+@EnableJpaRepositories(basePackages = "io.github.kolbiesch.museumguide.repositories")
 public class MuseumguideApplication {
 
 	public static void main(String[] args) {
