@@ -29,7 +29,7 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
     @Query("SELECT e FROM Exhibit e WHERE e.name LIKE %:keyword% OR e.description LIKE %:keyword%")
     List<Exhibit> searchByKeyword(@Param("keyword") String keyword);
 
-    @Query("SELECT e FROM Exhibit e WHERE e.startDate <= :currentDate AND (e.endDate IS NULL OR e.endDate >= :currentDate")
+    @Query("SELECT e FROM Exhibit e WHERE e.startDate <= :currentDate AND (e.endDate IS NULL OR e.endDate >= :currentDate)")
     List<Exhibit> findCurrentExhibits(@Param("currentDate") LocalDateTime currentDate);
 
     @Query("SELECT e FROM Exhibit e WHERE e.startDate > :currentDate")
@@ -38,7 +38,7 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
     @Query("SELECT e FROM Exhibit e WHERE e.endDate < :currentDate")
     List<Exhibit> findPastExhibits(@Param("currentDate") LocalDateTime currentDate);
 
-    @Query("SELECT e FROM Exhibit e WHERE e.isActive = true AND e.startDate <= :currentDate AND (e.endDate IS NULL OR e.endDate >= :currentDate")
+    @Query("SELECT e FROM Exhibit e WHERE e.isActive = true AND e.startDate <= :currentDate AND (e.endDate IS NULL OR e.endDate >= :currentDate)")
     List<Exhibit> findActiveCurrentExhibits(@Param("currentDate") LocalDateTime currentDate);
 
     @Query("SELECT e FROM Exhibit e JOIN e.visits v GROUP BY e ORDER BY COUNT(v) DESC")
