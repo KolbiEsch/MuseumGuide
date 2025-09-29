@@ -1,5 +1,6 @@
 package io.github.kolbiesch.museumguide.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -43,6 +44,7 @@ public class Exhibit {
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("displayOrder ASC, id ASC")
     private List<ExhibitMedia> media;
