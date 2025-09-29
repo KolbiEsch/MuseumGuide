@@ -16,6 +16,7 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
     List<Exhibit> findByIsActiveTrue();
     List<Exhibit> findByIsActiveFalse();
     Optional<Exhibit> findByNameIgnoreCase(String name);
+    Optional<Exhibit> findById(Long id);
 
     List<Exhibit> findByNameContainingIgnoreCase(String name);
     List<Exhibit> findByDescriptionContainingIgnoreCase(String description);

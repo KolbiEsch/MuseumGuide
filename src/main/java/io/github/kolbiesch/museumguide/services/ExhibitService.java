@@ -31,6 +31,11 @@ public class ExhibitService {
         return exhibitRepository.findAll();
     }
 
+    public Optional<Exhibit> getExhibitByID(long id) {
+        log.debug("Fetching exhibit {}", id);
+        return exhibitRepository.findById(id);
+    }
+
     public List<Exhibit> getActiveExhibits() {
         log.debug("Fetching active exhibits");
         return exhibitRepository.findByIsActiveTrue();
