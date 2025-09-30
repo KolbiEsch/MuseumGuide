@@ -3,6 +3,8 @@ package io.github.kolbiesch.museumguide.services;
 import io.github.kolbiesch.museumguide.entities.Exhibit;
 import io.github.kolbiesch.museumguide.entities.User;
 import io.github.kolbiesch.museumguide.entities.Visit;
+import io.github.kolbiesch.museumguide.repositories.ExhibitRepository;
+import io.github.kolbiesch.museumguide.repositories.UserRepository;
 import io.github.kolbiesch.museumguide.repositories.VisitRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +21,38 @@ import java.util.Optional;
 public class VisitService {
 
     private final VisitRepository visitRepository;
+    private final UserRepository userRepository;
+    private final ExhibitRepository exhibitRepository;
+
+    @Transactional
+    public Visit createVisit(Long userId, Long exhibitId, LocalDateTime visitDate,
+                             Integer durationMinutes, Integer rating, String notes) {
+        log.info("Creating visit for user {} to exhibit {}", userId, exhibitId);
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with id: " + userId));
+
+        Exhibit exhibit = exhibitRepository.findById(exhibitId)
+                .orElseThrow(() -> new IllegalArgumentException("Exhibit not found with id: " + exhibitId));
+
+        if (rating != null && (rating < 1 || rating > 5)) {
+            throw new IllegalArgumentException("Rating must be between 1 and 5");
+        }
+
+        Visit visit = Visit.builder()
+                .user(user)
+                .exhibit(exhibit)
+                .visitDate(visitDate != null ? visitDate : LocalDateTime.now())
+                .durationMinutes(durationMinutes)
+                .rating(rating)
+                .notes(notes)
+                .build();
+
+        Visit savedVisit = visitRepository.save(visit);
+        log.info("Visit created successfully with id: {}", savedVisit.getId());
+
+        return savedVisit;
+    }
 
     public List<Visit> getVisitByUser(User user) {
         log.info("Fetching visits by User: {}", user.getUsername());
