@@ -36,15 +36,6 @@ public class Visit {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Visit() {}
-
-    public Visit(User user, Exhibit exhibit, LocalDateTime visitDate) {
-        this.user = user;
-        this.exhibit = exhibit;
-        this.visitDate = visitDate;
-        this.createdAt = LocalDateTime.now();
-    }
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
