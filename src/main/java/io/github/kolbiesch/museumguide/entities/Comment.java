@@ -33,18 +33,6 @@ public class Comment {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    // Constructors
-    public Comment() {}
-
-    public Comment(User user, Exhibit exhibit, String content) {
-        this.user = user;
-        this.exhibit = exhibit;
-        this.content = content;
-        this.isPublic = true;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
