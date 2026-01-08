@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 @CrossOrigin(origins = "*")
 public class CommentController {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @PostMapping
     public ResponseEntity<CommentResponse> createComment(@Valid @RequestBody CreateCommentRequest request) {
