@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/comments")
@@ -44,6 +46,18 @@ public class CommentController {
             log.error("Error creating comment", e);
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/exhibit/{exhibitId}")
+    public ResponseEntity<List<CommentResponse>> getCommentsByExhibit(@PathVariable Long exhibitId) {
+        log.info("GET /api/comments/exhibit/{}", exhibitId);
+
+        List<Comment> comments = commentService.getCommentByExhibitId(exhibitId);
+        List<CommentResponse> response = comments.stream()
+                .map(CommentResponse::fromComment)
+                .toList();
+
+        return ResponseEntity.ok(response);
     }
 
     @Data
