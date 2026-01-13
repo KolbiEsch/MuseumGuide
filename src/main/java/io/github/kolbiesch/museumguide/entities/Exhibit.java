@@ -38,9 +38,11 @@ public class Exhibit {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Visit> visits;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
