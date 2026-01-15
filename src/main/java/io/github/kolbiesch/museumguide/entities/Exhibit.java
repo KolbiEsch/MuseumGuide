@@ -1,5 +1,6 @@
 package io.github.kolbiesch.museumguide.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 import java.time.LocalDateTime;
@@ -37,12 +38,15 @@ public class Exhibit {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Visit> visits;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Comment> comments;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "exhibit", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @OrderBy("displayOrder ASC, id ASC")
     private List<ExhibitMedia> media;
@@ -71,6 +75,7 @@ public class Exhibit {
                         .orElse(null));
     }
 
+    public Long getId() { return this.id; }
     public void setId(Long id) { this.id = id; }
 
     public String getName() { return name; }

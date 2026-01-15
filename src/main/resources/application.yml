@@ -6,6 +6,9 @@ spring:
     password: password123
     driver-class-name: org.postgresql.Driver
 
+  profiles:
+    active: dev
+
   jpa:
     hibernate:
       ddl-auto: validate  # Important: Use 'validate' with Flyway

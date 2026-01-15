@@ -1,19 +1,25 @@
 package io.github.kolbiesch.museumguide.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Builder;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "visits")
+@Builder
 public class Visit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibit_id", nullable = false)
     private Exhibit exhibit;
@@ -32,15 +38,6 @@ public class Visit {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    public Visit() {}
-
-    public Visit(User user, Exhibit exhibit, LocalDateTime visitDate) {
-        this.user = user;
-        this.exhibit = exhibit;
-        this.visitDate = visitDate;
-        this.createdAt = LocalDateTime.now();
-    }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }

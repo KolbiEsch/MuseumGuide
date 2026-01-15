@@ -1,5 +1,7 @@
 package io.github.kolbiesch.museumguide.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -17,11 +19,11 @@ public class ExhibitMedia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exhibit_id", nullable = false)
     private Exhibit exhibit;
 
-    @Enumerated(EnumType.STRING)
     @Column(name = "media_type", nullable = false, length = 50)
     private MediaType mediaType;
 
@@ -63,6 +65,21 @@ public class ExhibitMedia {
 
         public String getValue() {
             return value;
+        }
+
+        @JsonCreator
+        public static MediaType fromValue(String value) {
+            if (value == null) {
+                return null;
+            }
+
+            for (MediaType mediaType : values()) {
+                if (mediaType.value.equalsIgnoreCase(value)) {
+                    return mediaType;
+                }
+            }
+
+            throw new IllegalArgumentException("Unknown enum type " + value);
         }
     }
 }
