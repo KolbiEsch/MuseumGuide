@@ -1,5 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
-import ExhibitList from '../pages/ExhibitList';
+import ExhibitList from '../pages/ExhibitList/ExhibitList';
 import ExhibitDetail from '../pages/ExhibitDetail';
 
 const AppRoutes = () => {

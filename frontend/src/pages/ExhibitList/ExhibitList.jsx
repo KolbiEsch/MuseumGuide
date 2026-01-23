@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../api/axiosConfig';
+import api from '../../api/axiosConfig';
+import styles from './ExhibitList.module.scss';
 
 const ExhibitList = () => {
     const [exhibits, setExhibits] = useState([]);
@@ -28,12 +29,12 @@ const ExhibitList = () => {
     if (error) return <div>{error}</div>
 
     return (
-        <div>
-            <h1>Museum Exhibits</h1>
+        <div className={styles.container}>
+            <h1 className={styles.header}>Museum Exhibits</h1>
 
-            <div>
+            <div className={styles.grid}>
                 {exhibits.map((exhibit) => (
-                   <Link
+                   <Link className={styles.card}
                      to={`/exhibit/${exhibit.id}`}
                      key={exhibit.id}
                    >
